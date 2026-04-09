@@ -1,0 +1,39 @@
+[project]
+name = "sax-llm"
+version = "0.1.0"
+description = "Shared LLM provider abstraction — Anthropic, Mistral, and extensible"
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.10.0",
+    "anthropic>=0.40.0",
+    "mistralai>=1.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sax_llm"]
+
+[tool.ruff]
+src = ["src"]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "N", "UP", "B", "SIM", "TCH", "RUF"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
+addopts = "--cov=sax_llm --cov-report=term-missing --cov-fail-under=25"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=1.3.0",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.8.0",
+]
