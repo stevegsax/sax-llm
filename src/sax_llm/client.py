@@ -200,7 +200,14 @@ def get_anthropic_client():
     if _client is None:
         from anthropic import AsyncAnthropic
 
-        _client = AsyncAnthropic()
+        # Retries belong to the consumer's durable retry layer (e.g. a Temporal
+        # activity RetryPolicy), not the SDK. The SDK default (2 retries) stacks
+        # under a caller-side retry loop — Forge's _LLM_RETRY runs 3 attempts —
+        # into up to 9 provider attempts per failing call, with 429/529 backoff
+        # hidden from the orchestrator's timeouts. max_retries=0 stops the
+        # client's own retry loop from stacking on top of (and hiding failures
+        # from) the durable retries.
+        _client = AsyncAnthropic(max_retries=0)
     return _client
 
 

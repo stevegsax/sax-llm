@@ -6,7 +6,10 @@ requires-python = ">=3.12"
 dependencies = [
     "pydantic>=2.10.0",
     "anthropic>=0.40.0",
-    "mistralai>=1.0.0",
+    # sax_llm.mistral targets the 1.x `from mistralai import Mistral` API.
+    # mistralai 2.x is an incompatible SDK rewrite, and the 2.3.1 wheel installs
+    # without a top-level package (no __init__.py), so it is unimportable.
+    "mistralai>=1.0.0,<2",
 ]
 
 [build-system]
@@ -28,7 +31,7 @@ testpaths = ["tests"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "session"
 asyncio_default_test_loop_scope = "session"
-addopts = "--cov=sax_llm --cov-report=term-missing --cov-fail-under=25"
+addopts = "--cov=sax_llm --cov-report=term-missing --cov-fail-under=85"
 
 [dependency-groups]
 dev = [
