@@ -388,33 +388,6 @@ class MistralProvider:
 
         return BatchPollResult(status=BatchPollStatus.ENDED, entries=entries)
 
-    @property
-    def supports_sync_ocr(self) -> bool:
-        return True
-
-    async def call_ocr(
-        self,
-        *,
-        document_data_uri: str,
-        model: str,
-        include_image_base64: bool = True,
-    ) -> dict:
-        from mistralai.models import DocumentURLChunk, ImageURLChunk
-
-        mime_type = document_data_uri.split(":")[1].split(";")[0]
-        if mime_type.startswith("image/"):
-            document = ImageURLChunk(image_url=document_data_uri)
-        else:
-            document = DocumentURLChunk(document_url=document_data_uri)
-
-        response = await self._client.ocr.process_async(
-            model=model,
-            document=document,
-            include_image_base64=include_image_base64,
-        )
-
-        return response.model_dump(mode="json")
-
     def parse_batch_result(
         self,
         raw_json: str,

@@ -275,16 +275,6 @@ class AnthropicProvider:
             raw_response_json=raw_json,
         )
 
-    @property
-    def supports_sync_ocr(self) -> bool:
-        return False
-
-    async def call_ocr(
-        self, *, document_data_uri: str, model: str, include_image_base64: bool = True
-    ) -> dict:
-        msg = "Anthropic does not support OCR"
-        raise NotImplementedError(msg)
-
 
 def _format_batch_error(entry: object) -> str:
     result = getattr(entry, "result", None)
