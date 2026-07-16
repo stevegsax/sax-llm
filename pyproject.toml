@@ -1,6 +1,6 @@
 [project]
 name = "sax-llm"
-version = "0.1.1"
+version = "0.1.2"
 description = "Shared LLM provider abstraction — Anthropic, Mistral, and extensible"
 requires-python = ">=3.12"
 dependencies = [
